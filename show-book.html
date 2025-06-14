@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/show-book.css">
+</head>
+<body>
+    <div class="header-home">
+        <div class="logo">
+            <img src="SVG/Logo.svg" alt="Logo">
+        </div>
+        <div class="right_header">
+            <div class="input-box">
+                <input type="text" class="input-field" id="book-search" required>
+                <label for="book-search" class="label">Search</label>
+                <i class='bx bx-search icon'></i>
+            </div>
+            <i class='bx bx-user user-icon'></i>
+        </div>
+    </div>
+
+    <main class="main">
+        <div class="container">
+            <h1 class="page-title"> - </h1>
+
+            <!-- Search & Filter Section -->
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Cari judul buku, pengarang, atau kata kunci..." id="searchInput">
+                    <button class="search-btn" onclick="searchBooks()">Cari</button>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label class="filter-label">Kategori</label>
+                        <select class="filter-select" id="categoryFilter">
+                            <option value="">Semua Kategori</option>
+                            <option value="1">Fiksi</option>
+                            <option value="2">Non-Fiksi</option>
+                            <option value="3">Sains</option>
+                            <option value="4">Teknologi</option>
+                            <option value="5">Sejarah</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Pengarang</label>
+                        <select class="filter-select" id="authorFilter">
+                            <option value="">Semua Pengarang</option>
+                            <option value="1">Andrea Hirata</option>
+                            <option value="2">Pramoedya Ananta Toer</option>
+                            <option value="3">Tere Liye</option>
+                            <option value="4">Dee Lestari</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Ketersediaan</label>
+                        <select class="filter-select" id="availabilityFilter">
+                            <option value="">Semua</option>
+                            <option value="available">Tersedia</option>
+                            <option value="unavailable">Tidak Tersedia</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Urutkan</label>
+                        <select class="filter-select" id="sortFilter">
+                            <option value="title_asc">Judul A-Z</option>
+                            <option value="title_desc">Judul Z-A</option>
+                            <option value="year_desc">Tahun Terbaru</option>
+                            <option value="year_asc">Tahun Terlama</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Books Grid -->
+            <div class="books-grid" id="booksGrid">
+                <!-- Sample Book Cards -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <div class="no-cover">📖</div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Laskar Pelangi</h3>
+                        <p class="book-authors">Andrea Hirata</p>
+                        <div class="book-categories">
+                            <span class="category-tag">Fiksi</span>
+                            <span class="category-tag">Drama</span>
+                        </div>
+                        <div class="book-meta">
+                            <span class="book-year">2005</span>
+                            <span class="book-stock stock-available">Tersedia (3)</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-primary" onclick="showBorrowConfirmation(1, 'Laskar Pelangi')">Pinjam</button>
+                            <button class="btn btn-secondary">Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-cover">
+                        <div class="no-cover">📚</div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Bumi Manusia</h3>
+                        <p class="book-authors">Pramoedya Ananta Toer</p>
+                        <div class="book-categories">
+                            <span class="category-tag">Sejarah</span>
+                            <span class="category-tag">Fiksi</span>
+                        </div>
+                        <div class="book-meta">
+                            <span class="book-year">1980</span>
+                            <span class="book-stock stock-unavailable">Tidak Tersedia (0)</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-primary" disabled>Pinjam</button>
+                            <button class="btn btn-secondary">Reservasi</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-cover">
+                        <div class="no-cover">📗</div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Hujan</h3>
+                        <p class="book-authors">Tere Liye</p>
+                        <div class="book-categories">
+                            <span class="category-tag">Fiksi</span>
+                            <span class="category-tag">Young Adult</span>
+                        </div>
+                        <div class="book-meta">
+                            <span class="book-year">2016</span>
+                            <span class="book-stock stock-available">Tersedia (5)</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-primary" onclick="showBorrowConfirmation(3, 'Hujan')">Pinjam</button>
+                            <button class="btn btn-secondary">Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-cover">
+                        <div class="no-cover">📘</div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Supernova: Kesatria, Putri, dan Bintang Jatuh</h3>
+                        <p class="book-authors">Dee Lestari</p>
+                        <div class="book-categories">
+                            <span class="category-tag">Fiksi</span>
+                            <span class="category-tag">Sains</span>
+                        </div>
+                        <div class="book-meta">
+                            <span class="book-year">2001</span>
+                            <span class="book-stock stock-available">Tersedia (2)</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-primary" onclick="showBorrowConfirmation(4, 'Supernova: Kesatria, Putri, dan Bintang Jatuh')">Pinjam</button>
+                            <button class="btn btn-secondary">Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-cover">
+                        <div class="no-cover">📙</div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Algoritma dan Pemrograman</h3>
+                        <p class="book-authors">Dr. Munir, S.Kom</p>
+                        <div class="book-categories">
+                            <span class="category-tag">Teknologi</span>
+                            <span class="category-tag">Komputer</span>
+                        </div>
+                        <div class="book-meta">
+                            <span class="book-year">2018</span>
+                            <span class="book-stock stock-available">Tersedia (8)</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-primary" onclick="showBorrowConfirmation(5, 'Algoritma dan Pemrograman')">Pinjam</button>
+                            <button class="btn btn-secondary">Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-cover">
+                        <div class="no-cover">📕</div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Sejarah Indonesia Modern</h3>
+                        <p class="book-authors">Prof. M.C. Ricklefs</p>
+                        <div class="book-categories">
+                            <span class="category-tag">Sejarah</span>
+                            <span class="category-tag">Non-Fiksi</span>
+                        </div>
+                        <div class="book-meta">
+                            <span class="book-year">2015</span>
+                            <span class="book-stock stock-available">Tersedia (4)</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-primary" onclick="showBorrowConfirmation(6, 'Sejarah Indonesia Modern')">Pinjam</button>
+                            <button class="btn btn-secondary">Detail</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button onclick="changePage('prev')">❮ Sebelumnya</button>
+                <button class="active">1</button>
+                <button onclick="changePage(2)">2</button>
+                <button onclick="changePage(3)">3</button>
+                <button onclick="changePage('next')">Selanjutnya ❯</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Konfirmasi Pinjam -->
+     <!-- Modal Konfirmasi Pinjam - FIXED VERSION -->
+    <div class="modal-overlay" id="borrowModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Konfirmasi Peminjaman</h3>
+                <button class="modal-close" onclick="closeBorrowModal()">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-icon">
+                    <i class='bx bx-book-bookmark'></i>
+                </div>
+                <p class="modal-text">Ingin pinjam "<span id="bookTitleModal"></span>"?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeBorrowModal()">Batal</button>
+                <button class="btn btn-primary" id="confirmBorrowBtn" onclick="confirmBorrow()">Pinjam</button>
+            </div>
+        </div>
+
+    <div class="floating-add-btn" id="floatingAddBtn" style="display: none;">
+        <button class="add-btn" onclick="goToAddBook()" title="Tambah Buku Baru">
+            <i class='bx bx-plus'></i>
+        </button>
+    </div>
+    
+    <script src="JS/show-book.js"></script>
+</body>
+</html>

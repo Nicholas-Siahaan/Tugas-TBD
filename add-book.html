@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/add-book.css">
+</head>
+<body>
+    <div class="header-home">
+        <div class="logo">
+            <img src="SVG/Logo.svg" alt="Logo">
+        </div>
+        <div class="right_header">
+            <div class="input-box">
+                <input type="text" class="input-field" id="book-search" required>
+                <label for="book-search" class="label">Search</label>
+                <i class='bx bx-search icon'></i>
+            </div>
+            <i class='bx bx-user user-icon'></i>
+        </div>
+    </div>
+
+    <main class="main">
+        <div class="container">
+            <h1 class="page-title">Tambah Buku Baru</h1>
+
+            <!-- Add Book Form -->
+            <div class="add-book-section">
+                <!-- ISBN Auto-fill Section -->
+                <div class="isbn-section">
+                    <h3 class="isbn-title">Cari Buku dengan ISBN</h3>
+                    <div class="isbn-input-group">
+                        <div class="isbn-input-wrapper">
+                            <input type="text" id="isbnSearch" class="isbn-input" placeholder="Masukkan ISBN (978-0123456789)">
+                            <button type="button" id="fetchBookBtn" class="fetch-btn">
+                                <i class='bx bx-search'></i>
+                                Cari Data
+                            </button>
+                        </div>
+                        <div class="isbn-status" id="isbnStatus"></div>
+                    </div>
+                </div>
+
+                <div class="form-divider"></div>
+
+                <form class="add-book-form" id="addBookForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="bookTitle">Judul Buku *</label>
+                            <input type="text" id="bookTitle" class="form-input" required placeholder="Masukkan judul buku">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bookISBN">ISBN</label>
+                            <input type="text" id="bookISBN" class="form-input" placeholder="978-0123456789">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="bookAuthor">Pengarang *</label>
+                            <div class="author-select-wrapper">
+                                <select id="bookAuthor" class="form-select" required>
+                                    <option value="">Pilih Pengarang</option>
+                                    <!-- Options akan diisi oleh JavaScript -->
+                                </select>
+                                <button type="button" id="addNewAuthorBtn" class="add-author-btn" title="Tambah Pengarang Baru">
+                                    <i class='bx bx-plus'></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bookPublisher">Penerbit</label>
+                            <input type="text" id="bookPublisher" class="form-input" placeholder="Nama penerbit">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="bookYear">Tahun Terbit *</label>
+                            <input type="text" id="bookYear" class="form-input" placeholder="2024">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="bookStock">Jumlah Stok *</label>
+                            <input type="number" id="bookStock" class="form-input" required placeholder="5" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bookStock">Jumlah Tersedia *</label>
+                            <input type="number" id="bookAvailable" class="form-input" required placeholder="5" min="1">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="bookDescription">Deskripsi Buku</label>
+                        <textarea id="bookDescription" class="form-textarea" rows="4" placeholder="Deskripsi singkat tentang buku ini..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="bookCover">Cover Buku</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <input type="file" id="bookCover" class="file-input" accept="image/*">
+                            <div class="file-upload-content">
+                                <i class='bx bx-cloud-upload file-upload-icon'></i>
+                                <p class="file-upload-text">Klik untuk upload cover buku atau drag & drop</p>
+                                <p class="file-upload-hint">Format: JPG, PNG, GIF (Max: 5MB)</p>
+                            </div>
+                            <div class="file-preview" id="filePreview" style="display: none;">
+                                <img id="previewImage" src="" alt="Preview">
+                                <button type="button" class="remove-file" id="removeFile">&times;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                        <button type="button" class="btn btn-outline" onclick="previewBook()">Preview</button>
+                        <button type="submit" class="btn btn-primary">Simpan Buku</button>
+                        <button type="button" id="deleteBtn" class="btn btn-delete">
+                                Hapus Buku
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h2 class="preview-title">Preview Buku</h2>
+                <div class="book-preview-card">
+                    <div class="book-cover-preview">
+                        <img id="previewCover" src="" alt="Cover Preview" style="display: none;">
+                        <div class="no-cover-preview" id="noCoverPreview">📖</div>
+                    </div>
+                    <div class="book-info-preview">
+                        <h3 class="book-title-preview" id="previewBookTitle">-</h3>
+                        <p class="book-authors-preview" id="previewBookAuthor">-</p>
+                        <div class="book-categories-preview">
+                            <span class="category-tag" id="previewCategory">-</span>
+                        </div>
+                        <div class="book-meta-preview">
+                            <span class="book-year-preview" id="previewYear">-</span>
+                            <span class="book-stock-preview stock-available" id="previewStock">Tersedia (-)</span>
+                        </div>
+                        <p class="book-description-preview" id="previewDescription">-</p>
+                        <div class="book-details-preview">
+                            <p><strong>Penerbit:</strong> <span id="previewPublisher">-</span></p>
+                            <p><strong>ISBN:</strong> <span id="previewISBN">-</span></p>
+                            <p><strong>Halaman:</strong> <span id="previewPages">-</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="JS/add-book.js"></script>
+</body>
+</html>
